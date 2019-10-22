@@ -1,0 +1,55 @@
+<form
+novalidate
+[formGroup]="loginForm"
+(ngSubmit)="submit()"
+class="card-body">
+<!-- email field-->
+<div class="for-group">
+  <label for="email">Email</label>
+  <input
+  id="email"
+  type="email"
+  formControlName="email"
+  class="form-control"
+  placeholder="Email"
+  autocomplete="=off"
+  autocorrect="off"/>
+  <small *ngIf="email.errors &&amp; email.dirty" class="form-text text-muted">
+    <span [hidden]="!email.errors.required">
+      Email is required
+    </span>
+    <span [hidden]="!email.errors.email">
+      Use a valid email address
+    </span>
+  </small>
+</div>
+<!-- password field-->
+<div class="form-group">
+  <label for="password">Password</label>
+  <input
+  id="password"
+  type="password"
+  formControlName="password"
+  class="form-control"
+  placeholder="Password"/>
+  <small *ngIf="password.errors &&amp; password.dirty" class="form-text text-muted">
+    <span [hidden]="!password.errors.required">
+      Password is required
+    </span>
+    <span [hidden]="!password.errors.minLength">
+      Use at least 6 characters
+    </span>
+    <span [hidden]="!password.errors.maxLength">
+      Use less than 20 characters
+    </span>
+  </small>
+</div>
+<!--Submit button-->
+<p class="text-center py-3">
+  <button type="submit" class="btn" [disabled]="!registerForm.valid"
+  [ngClass]="{'btn-success':loginForm.valid, 'btn-default':!loginForm.valid}">
+    Login
+  </button>
+</p>
+
+
