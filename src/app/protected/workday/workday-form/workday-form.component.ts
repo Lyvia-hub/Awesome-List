@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,6 +15,10 @@ export class WorkdayFormComponent implements OnInit {
 
   ngOnInit() {
     this.workdayForm = this.createWorkdayForm();
+    const taskGroup = this.fb.group({
+      title: 'Write an article about awesome-angular.com !'
+    });
+    this.tasks.push(taskGroup); // addition to formArray
   }
 
   get dueDate() { return this.workdayForm.get('dueDate'); }

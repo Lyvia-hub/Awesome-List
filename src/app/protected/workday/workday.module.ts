@@ -6,7 +6,8 @@ import { WorkdayFormComponent } from './workday-form/workday-form.component';
 import { WorkdayFormDateComponent } from './workday-form-date/workday-form-date.component';
 import { WorkdayFormTasksComponent } from './workday-form-tasks/workday-form-tasks.component';
 import { WorkdayFormTasksItemComponent } from './workday-form-tasks-item/workday-form-tasks-item.component';
-import { WorkdayFormTasksNotesComponent } from './workday-form-tasks-notes/workday-form-tasks-notes.component';
+import { WorkdayFormNotesComponent } from './workday-form-notes/workday-form-notes.component';
+import { WorkdayFormTasksAddComponent } from './workday-form-tasks-add/workday-form-tasks-add.component';
 
 // import {defineLocale } from 'ngx-bootstrap/chronos';
 // import { frLocale } from 'ngx-bootstrap/locale';
@@ -20,7 +21,8 @@ import { WorkdayFormTasksNotesComponent } from './workday-form-tasks-notes/workd
     WorkdayFormDateComponent,
     WorkdayFormTasksComponent,
     WorkdayFormTasksItemComponent,
-    WorkdayFormTasksNotesComponent],
+    WorkdayFormNotesComponent,
+    WorkdayFormTasksAddComponent],
   imports: [
     SharedModule,
     WorkdayRoutingModule
