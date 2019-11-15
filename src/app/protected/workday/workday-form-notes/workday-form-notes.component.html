@@ -1,1 +1,11 @@
-<p>workday-form-notes works!</p>
+<fieldset>
+  <legend>Notes</legend>
+  <div class="form-group">
+    <label for="notes">A small space to write ideas, mood of the day, ...</label>
+    <textarea
+    [formControl]="notes"
+    class="form-control"
+    id="notes"
+    rows="3"></textarea>
+  </div>
+</fieldset>
