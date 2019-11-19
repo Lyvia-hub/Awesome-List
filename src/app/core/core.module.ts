@@ -5,17 +5,20 @@ import { ProtectedModule } from '../protected/protected.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-
+import { LoaderComponent } from './components/loader/loader.component';
+import { ToastrComponent } from './components/toastr/toastr.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent, PageNotFoundComponent],
+  declarations: [NavbarComponent, FooterComponent, PageNotFoundComponent, LoaderComponent, ToastrComponent],
   imports: [
     CommonModule,
     PublicModule,
-    ProtectedModule
+    ProtectedModule,
+    AlertModule.forRoot(),
   ],
-  exports: [NavbarComponent, FooterComponent, PageNotFoundComponent]
+  exports: [NavbarComponent, FooterComponent, PageNotFoundComponent, LoaderComponent, ToastrComponent]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
