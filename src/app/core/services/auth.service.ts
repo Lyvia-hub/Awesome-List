@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { User } from 'src/app/shared/models/user';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +12,25 @@ export class AuthService {
   private user: BehaviorSubject<User|null> = new BehaviorSubject(null);
   public readonly user$: Observable<User|null> = this.user.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  public register(name: string, email: string, password: string): Observable<User|null> {
+    const url = `${environment.firebase.auth.baseURL}/signupNewUser?key=
+    ${environment.firebase.apiKey}`;
+
+    /* data object */
+    const data = {
+      email,
+      password,
+      returnSecureToken: true
+    };
+
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+
+    return this.http.post<User>(url, data, httpOptions);
+  }
 
   login(email: string, password: string): Observable<User|null> {
     // 1. A faire : Faire un appel au backend.
@@ -23,9 +44,9 @@ export class AuthService {
     // grâce à l’opérateur of de RxJS.
    }
 
-   register(nema: string, email: string, password: string): Observable<User|null> {
+   /* register(name: string, email: string, password: string): Observable<User|null> {
      return of(new User());
-   }
+   } */
 
    public logout(): Observable<null> {
      return of(null);
