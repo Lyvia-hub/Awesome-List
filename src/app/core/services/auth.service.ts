@@ -4,9 +4,9 @@ import { User } from 'src/app/shared/models/user';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, catchError } from 'rxjs/operators';
 import { UsersService } from 'src/app/core/services/users.service';
-
+import { ErrorService } from 'src/app/core/services/error.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +15,8 @@ export class AuthService {
   public readonly user$: Observable<User|null> = this.user.asObservable();
 
   constructor(private http: HttpClient,
-              private usersService: UsersService) { }
+              private usersService: UsersService,
+              private errorService: ErrorService) { }
 
   public register(name: string, email: string, password: string): Observable<User|null> {
     const url = `${environment.firebase.auth.baseURL}/signupNewUser?key=
@@ -44,7 +45,8 @@ export class AuthService {
        });
        return this.usersService.save(user, jwt);
       }),
-      tap(user => this.user.next(user))
+      tap(user => this.user.next(user)),
+      catchError(error => this.errorService.handleError(error))
      );
     }
 
