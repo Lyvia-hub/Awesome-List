@@ -4,7 +4,7 @@ import { User } from 'src/app/shared/models/user';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { UsersService } from 'src/app/core/services/users.service';
 
 @Injectable({
@@ -43,7 +43,8 @@ export class AuthService {
         name: name
        });
        return this.usersService.save(user, jwt);
-      })
+      }),
+      tap(user => this.user.next(user))
      );
     }
 
