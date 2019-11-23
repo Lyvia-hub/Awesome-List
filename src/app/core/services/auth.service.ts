@@ -4,6 +4,8 @@ import { User } from 'src/app/shared/models/user';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { switchMap } from 'rxjs/operators';
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ export class AuthService {
   private user: BehaviorSubject<User|null> = new BehaviorSubject(null);
   public readonly user$: Observable<User|null> = this.user.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private usersService: UsersService) { }
 
   public register(name: string, email: string, password: string): Observable<User|null> {
     const url = `${environment.firebase.auth.baseURL}/signupNewUser?key=
@@ -29,8 +32,20 @@ export class AuthService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
-    return this.http.post<User>(url, data, httpOptions);
-  }
+    return this.http.post(url, data, httpOptions).pipe(
+      // tslint:disable-next-line: no-shadowed-variable
+      switchMap((data: any) => {
+       const jwt: string = data.idToken;
+       const user = new User({
+        email: data.email,
+        id: data.localId,
+        // tslint:disable-next-line: object-literal-shorthand
+        name: name
+       });
+       return this.usersService.save(user, jwt);
+      })
+     );
+    }
 
   login(email: string, password: string): Observable<User|null> {
     // 1. A faire : Faire un appel au backend.
