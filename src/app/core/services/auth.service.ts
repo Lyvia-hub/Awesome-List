@@ -4,7 +4,7 @@ import { User } from 'src/app/shared/models/user';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { switchMap, tap, catchError, finalize } from 'rxjs/operators';
+import { catchError, delay, finalize, switchMap, tap } from 'rxjs/operators';
 import { UsersService } from 'src/app/core/services/users.service';
 import { ErrorService } from 'src/app/core/services/error.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -53,6 +53,7 @@ export class AuthService {
        return this.usersService.save(user, jwt);
       }),
       tap(user => this.user.next(user)),
+      tap(_ => this.logoutTimer(3600)),
       catchError(error => this.errorService.handleError(error)),
       finalize(() => this.loaderService.setLoading(false))
      );
@@ -85,9 +86,16 @@ export class AuthService {
         return this.usersService.get(userId, jwt);
       }),
       tap(user => this.user.next(user)),
+      tap(_ => this.logoutTimer(3600)),
       catchError(error => this.errorService.handleError(error)),
       finalize(() => this.loaderService.setLoading(false))
     );
+  }
+
+  private logoutTimer(expirationTime: number): void {
+    of(true).pipe(
+      delay(expirationTime * 1000)
+    ).subscribe(_ => this.logout());
   }
 
    public logout(): void {
