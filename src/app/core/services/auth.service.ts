@@ -57,6 +57,17 @@ export class AuthService {
     }
 
   login(email: string, password: string): Observable<User|null> {
+    const url = `${environment.firebase.auth.baseURL}/verifyPassword?key=
+    ${environment.firebase.apiKey}`;
+    const data = {
+      email,
+      password,
+      returnSecureToken: true
+    };
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post<User>(url, data, httpOptions);
     // 1. A faire : Faire un appel au backend.
     // 2. A faire : Mettre à jour l’état en fonction de la réponse du backend.
     // 3. A faire : Retournez la réponse du backend sous la forme d’un Observable,
