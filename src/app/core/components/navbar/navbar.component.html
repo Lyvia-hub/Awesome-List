@@ -7,20 +7,34 @@
 
   <div class="container">
     <a class ="navbar-brand">Awesome List</a>
-    <div class="collapse navbar-collapse">
+    <!-- User connected -->
+    <div *ngIf="user" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link">{{user?.email}}</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" (click)= "logout()">Logout</a>
+          </li>
+        </ul>
+    </div>
+    <!-- User not connected-->
+    <div *ngIf="!user" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li [class.active]="isActive(homePath)" class="nav-item">
           <a (click)="navigate(homePath)" class="nav-link">Home</a>
-      </li>
+        </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-          <li class="nav-item" [class.active]="isActive(loginPath)">
-            <a (click)= "navigate(loginPath)" class="nav-link">Login</a>
-          </li>
-          <li class="nav-item" [class.active]="isActive(registerPath)">
-              <a (click)="navigate(registerPath)" class="nav-link">Sign-up</a>
-            </li>
-        </ul>
+        <li class="nav-item" [class.active]="isActive(loginPath)">
+          <a (click)= "navigate(loginPath)" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item" [class.active]="isActive(registerPath)">
+          <a (click)="navigate(registerPath)" class="nav-link">Sign-up</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
