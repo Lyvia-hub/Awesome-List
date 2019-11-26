@@ -71,7 +71,8 @@ export class UsersService {
      })
    };
     return this.http.post(url, data, httpOptions).pipe(
-     switchMap((datat: any) => {
+     // tslint:disable-next-line: no-shadowed-variable
+     switchMap((data: any) => {
        return of(this.getUserFromFirestore(data[0].document.fields));
      })
    );

@@ -34,7 +34,7 @@ export class LoginFormComponent implements OnInit {
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
 
-  submit() {
+  submit(): void {
     this.authService
     .login(this.email.value, this.password.value)
     .subscribe(
