@@ -50,6 +50,8 @@ export class AuthService {
         // tslint:disable-next-line: object-literal-shorthand
         name: name
        });
+       // save user data connexion
+       this.saveAuthData(user.id, jwt);
        return this.usersService.save(user, jwt);
       }),
       tap(user => this.user.next(user)),
@@ -83,6 +85,7 @@ export class AuthService {
       switchMap((data: any) => {
         const userId: string = data.localId;
         const jwt: string = data.idToken;
+        this.saveAuthData(userId, jwt);
         return this.usersService.get(userId, jwt);
       }),
       tap(user => this.user.next(user)),
@@ -99,7 +102,23 @@ export class AuthService {
   }
 
    public logout(): void {
+     localStorage.removeItem('expirationDate');
+     localStorage.removeItem('token');
+     localStorage.removeItem('userId');
      this.user.next(null);
      this.router.navigate(['/login']);
+   }
+
+   private saveAuthData(userId: string, token: string) {
+    const now = new Date();
+    const expirationDate = (now.getTime() + 3600 * 1000).toString();
+    localStorage.setItem('expirationDate', expirationDate);
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
+   }
+
+   public autoLogin(user: User) {
+     this.user.next(user);
+     this.router.navigate(['app/dashboard']);
    }
 }
