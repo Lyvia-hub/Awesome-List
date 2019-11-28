@@ -4,7 +4,7 @@
     <img class="card-img-top"
       src="assets/img/home-banner.jpg"
       alt="sidenav banner">
-    <div class="card-header">Menu</div>
+    <div class="card-header">Hi, {{ user?.name }} !</div>
     <ul class="list-group list-group-flush">
       <li (click)="navigate(dashboardPath)"
        [class.list-group-item-success]="isActive(dashboardPath)"
